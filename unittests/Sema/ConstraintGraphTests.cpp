@@ -34,4 +34,12 @@ TEST_F(SemaTest, TestConstraintGraphConnectedComponents) {
 
   ASSERT_EQ(components.size(), 1);
 
+  auto floatTy = getStdlibType("Float");
+
+  g.addConstraint(Constraint::create(cs, ConstraintKind::Equal, floatTy, floatTy, nullptr));
+
+  components = g.computeConnectedComponents({});
+
+  ASSERT_EQ(components.size(), 2);
+
 }

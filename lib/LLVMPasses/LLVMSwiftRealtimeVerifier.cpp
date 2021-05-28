@@ -15,6 +15,7 @@
 #include "llvm/IR/LegacyPassManager.h" 
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Instructions.h"
+#include "swift/Demangling/Demangle.h"
 
 using namespace llvm;
 using namespace swift;
@@ -46,7 +47,7 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
 
   if(!safe) {
     errs() << "Function ";
-    errs().write_escaped(F.getName()) << " contains swift runtime calls.\n";
+    errs().write_escaped(Demangle::demangleSymbolAsString(F.getName())) << " contains swift runtime calls.\n";
   }
 
   return false;

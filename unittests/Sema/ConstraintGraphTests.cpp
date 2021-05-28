@@ -18,20 +18,19 @@ using namespace swift::unittest;
 using namespace swift::constraints;
 
 TEST_F(SemaTest, TestConstraintGraphConnectedComponents) {
-  ConstraintSystemOptions options;
-  ConstraintSystem cs(DC, options);
-  ConstraintGraph g(cs);
+  ConstraintSystem cs(DC, {});
+  ConstraintGraph cg(cs);
 
-  auto components = g.computeConnectedComponents({});
+  auto components = cg.computeConnectedComponents({});
 
   ASSERT_EQ(components.size(), 0);
 
   auto intTy = getStdlibType("Int");
 
   auto c0 = Constraint::create(cs, ConstraintKind::Equal, intTy, intTy, nullptr);
-  g.addConstraint(c0);
+  cg.addConstraint(c0);
 
-  components = g.computeConnectedComponents({});
+  components = cg.computeConnectedComponents({});
 
   ASSERT_EQ(components.size(), 1);
   if(components.size() == 1) {
@@ -42,9 +41,9 @@ TEST_F(SemaTest, TestConstraintGraphConnectedComponents) {
   auto floatTy = getStdlibType("Float");
 
   auto c1 = Constraint::create(cs, ConstraintKind::Equal, floatTy, floatTy, nullptr);
-  g.addConstraint(c1);
+  cg.addConstraint(c1);
 
-  components = g.computeConnectedComponents({});
+  components = cg.computeConnectedComponents({});
 
   ASSERT_EQ(components.size(), 2);
   if(components.size() == 2) {

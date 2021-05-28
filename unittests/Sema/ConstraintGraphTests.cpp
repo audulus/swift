@@ -28,18 +28,28 @@ TEST_F(SemaTest, TestConstraintGraphConnectedComponents) {
 
   auto intTy = getStdlibType("Int");
 
-  g.addConstraint(Constraint::create(cs, ConstraintKind::Equal, intTy, intTy, nullptr));
+  auto c0 = Constraint::create(cs, ConstraintKind::Equal, intTy, intTy, nullptr);
+  g.addConstraint(c0);
 
   components = g.computeConnectedComponents({});
 
   ASSERT_EQ(components.size(), 1);
+  if(components.size() == 1) {
+    auto constraints = components[0].getConstraints();
+    ASSERT_EQ(constraints, TinyPtrVector<Constraint *>{c0});
+  }
 
   auto floatTy = getStdlibType("Float");
 
-  g.addConstraint(Constraint::create(cs, ConstraintKind::Equal, floatTy, floatTy, nullptr));
+  auto c1 = Constraint::create(cs, ConstraintKind::Equal, floatTy, floatTy, nullptr);
+  g.addConstraint(c1);
 
   components = g.computeConnectedComponents({});
 
   ASSERT_EQ(components.size(), 2);
+  if(components.size() == 2) {
+    ASSERT_EQ(components[0].getConstraints(), TinyPtrVector<Constraint *>{c0});
+    ASSERT_EQ(components[1].getConstraints(), TinyPtrVector<Constraint *>{c1});
+  }
 
 }

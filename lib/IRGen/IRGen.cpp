@@ -276,6 +276,10 @@ void swift::performLLVMOptimizations(const IRGenOptions &Opts,
     }));
   }
 
+  // Add realtime verification pass.
+  // Not sure if this is the right place.
+  FunctionPasses.add(createSwiftRealtimeVerifierPass());
+
   // Run the function passes.
   FunctionPasses.doInitialization();
   for (auto I = Module->begin(), E = Module->end(); I != E; ++I)

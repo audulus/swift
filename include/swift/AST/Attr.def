@@ -673,6 +673,11 @@ SIMPLE_DECL_ATTR(_distributedActorIndependent, DistributedActorIndependent,
   APIBreakingToAdd | APIBreakingToRemove,
   119)
 
+SIMPLE_DECL_ATTR(realtime, Realtime,
+  OnFunc |
+  ABIStableToAdd | ABIStableToRemove | APIStableToAdd | APIStableToRemove,
+  120)
+
 
 #undef TYPE_ATTR
 #undef DECL_ATTR_ALIAS

@@ -39,7 +39,6 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
           if(name.startswith("_swift") || name.startswith("__swift")) {
             safe = false;
           }
-          errs().write_escaped(fun->getName()) << '\n';
         }
       }
     }

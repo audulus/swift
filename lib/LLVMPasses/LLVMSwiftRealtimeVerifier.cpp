@@ -28,6 +28,12 @@ void SwiftRealtimeVerifier::getAnalysisUsage(llvm::AnalysisUsage &AU) const {
 
 bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
 
+  auto mdNode = F.getMetadata("realtime");
+
+  if(mdNode == nullptr) {
+    return false;
+  }
+
   bool safe = true;
 
   for(auto& block : F) {

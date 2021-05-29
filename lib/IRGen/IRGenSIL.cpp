@@ -2233,6 +2233,14 @@ void IRGenSILFunction::emitSILFunction() {
   }
   emitDynamicSelfMetadata(*this);
 
+  // Emit metadata for realtime verification.
+  // Note sure this is the right spot.
+  if(CurSILFn->isRealtime()) {
+     auto& C = CurFn->getContext();
+     auto N = llvm::MDNode::get(C, llvm::MDString::get(C, "realtime"));
+     CurFn->addMetadata("realtime", *N);
+  }
+
   assert(params.empty() && "did not map all llvm params to SIL params?!");
 
   // It's really nice to be able to assume that we've already emitted

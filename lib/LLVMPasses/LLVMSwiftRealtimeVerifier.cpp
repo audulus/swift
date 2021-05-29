@@ -34,6 +34,11 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
     return false;
   }
 
+  auto name = Demangle::demangleSymbolAsString(F.getName());
+
+  errs() << "Validating function ";
+  errs().write_escaped(name) << " for realtime safety.\n";
+
   bool safe = true;
 
   for(auto& block : F) {
@@ -53,7 +58,7 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
 
   if(!safe) {
     errs() << "Function ";
-    errs().write_escaped(Demangle::demangleSymbolAsString(F.getName())) << " contains swift runtime calls.\n";
+    errs().write_escaped(name) << " contains swift runtime calls.\n";
   }
 
   return false;

@@ -41,9 +41,9 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
 
   bool safe = true;
 
-  for(auto& block : F) {
-    for(auto& inst : block) {
-      if(inst.getOpcode() == Instruction::Call) {
+  for (auto& block : F) {
+    for (auto& inst : block) {
+      if (inst.getOpcode() == Instruction::Call) {
         auto call = static_cast<CallInst*>(&inst);
         Function *fun = call->getCalledFunction();
         if (fun) {
@@ -56,7 +56,7 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
     }
   }
 
-  if(!safe) {
+  if (!safe) {
     errs() << "Function ";
     errs().write_escaped(name) << " contains swift runtime calls.\n";
   }

@@ -26,6 +26,24 @@ void SwiftRealtimeVerifier::getAnalysisUsage(llvm::AnalysisUsage &AU) const {
   // do nothing for now
 }
 
+static bool isRealtimeSafe(llvm::Function& F) {
+  for (auto& block : F) {
+    for (auto& inst : block) {
+      if (inst.getOpcode() == Instruction::Call) {
+        auto call = static_cast<CallInst*>(&inst);
+        auto fun = call->getCalledFunction();
+        if (fun) {
+          auto name = fun->getName();
+          if(name.startswith("_swift") || name.startswith("__swift")) {
+            return false;
+          }
+        }
+      }
+    }
+  }
+  return true;
+}
+
 bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
 
   auto mdNode = F.getMetadata("realtime");
@@ -39,24 +57,7 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
   errs() << "Validating function ";
   errs().write_escaped(name) << " for realtime safety.\n";
 
-  bool safe = true;
-
-  for (auto& block : F) {
-    for (auto& inst : block) {
-      if (inst.getOpcode() == Instruction::Call) {
-        auto call = static_cast<CallInst*>(&inst);
-        auto fun = call->getCalledFunction();
-        if (fun) {
-          auto name = fun->getName();
-          if(name.startswith("_swift") || name.startswith("__swift")) {
-            safe = false;
-          }
-        }
-      }
-    }
-  }
-
-  if (!safe) {
+  if (!isRealtimeSafe(F)) {
     errs() << "Function ";
     errs().write_escaped(name) << " contains swift runtime calls.\n";
   }

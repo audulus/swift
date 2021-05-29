@@ -45,7 +45,7 @@ bool SwiftRealtimeVerifier::runOnFunction(llvm::Function &F) {
     for (auto& inst : block) {
       if (inst.getOpcode() == Instruction::Call) {
         auto call = static_cast<CallInst*>(&inst);
-        Function *fun = call->getCalledFunction();
+        auto fun = call->getCalledFunction();
         if (fun) {
           auto name = fun->getName();
           if(name.startswith("_swift") || name.startswith("__swift")) {

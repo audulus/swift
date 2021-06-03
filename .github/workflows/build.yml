@@ -13,13 +13,12 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode_version }}.app
     steps:
-      - name: Set branch name
-        run: git config --global init.defaultBranch main 
       - name: Check out Swift 
         uses: actions/checkout@v2
       - name: update-checkout
         run: |
           set -euo pipefail
+          git fetch origin
           git checkout main
           ./utils/update-checkout --clone
           git checkout github-actions

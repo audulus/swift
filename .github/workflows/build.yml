@@ -21,5 +21,7 @@ jobs:
           git fetch origin
           ./utils/update-checkout --clone
           git checkout github-actions
+      - name: Install ninja
+        run: brew install ninja
       - name: Build & Test
         run: utils/build-script --skip-build-benchmarks --skip-ios --skip-watchos --skip-tvos --swift-darwin-supported-archs "$(uname -m)" --release-debuginfo --swift-disable-dead-stripping --test

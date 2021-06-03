@@ -18,4 +18,4 @@ jobs:
       - name: update-checkout
         run: |
           set -euo pipefail
-          ./utils/update-checkout --clone-with-ssh
+          ./utils/update-checkout --clone

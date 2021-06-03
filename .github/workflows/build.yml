@@ -18,4 +18,6 @@ jobs:
       - name: update-checkout
         run: |
           set -euo pipefail
+          git checkout main
           ./utils/update-checkout --clone
+          git checkout github-actions

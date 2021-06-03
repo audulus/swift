@@ -19,7 +19,7 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin
-          ./utils/update-checkout --clone-with-ssh
+          ./utils/update-checkout --clone
           git checkout $GITHUB_REF 
       - name: Install ninja
         run: brew install ninja

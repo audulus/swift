@@ -15,3 +15,7 @@ jobs:
     steps:
       - name: Check out Swift 
         uses: actions/checkout@v2
+      - name: update-checkout
+        run: |
+          set -euo pipefail
+          ./utils/update-checkout --clone-with-ssh

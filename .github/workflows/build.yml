@@ -19,7 +19,6 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin
-          git checkout main
           ./utils/update-checkout --clone
           git checkout github-actions
       - name: Build & Test

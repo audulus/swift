@@ -25,3 +25,23 @@ jobs:
         run: brew install ninja
       - name: Build & Test
         run: /usr/bin/python3 utils/build-script --skip-build-benchmarks --skip-ios --skip-watchos --skip-tvos --swift-darwin-supported-archs "$(uname -m)" --release-debuginfo --swift-disable-dead-stripping --test
+  build_toolchain:
+    strategy:
+      matrix:
+        xcode_version: ['12.4']
+    runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode_version }}.app
+    steps:
+      - name: Check out Swift
+        uses: actions/checkout@v2
+      - name: update-checkout
+        run: |
+          set -euo pipefail
+          git fetch origin
+          ./utils/update-checkout --clone
+          git checkout $GITHUB_REF
+      - name: Install ninja
+        run: brew install ninja
+      - name: Build toolchain
+        run: cd .. & ./swift/utils/build-toolchain com.audulus

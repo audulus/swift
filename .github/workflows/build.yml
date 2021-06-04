@@ -24,7 +24,7 @@ jobs:
       - name: Install ninja
         run: brew install ninja
       - name: Build & Test
-        run: /usr/bin/python3 utils/build-script --skip-build-benchmarks --skip-ios --skip-watchos --skip-tvos --swift-darwin-supported-archs "$(uname -m)" --release-debuginfo --swift-disable-dead-stripping --test
+        run: /usr/bin/python3 utils/build-script --skip-build-benchmarks --skip-ios --skip-watchos --skip-tvos --swift-darwin-supported-archs "$(uname -m)" --release-debuginfo --swift-disable-dead-stripping
   build_toolchain:
     strategy:
       matrix:

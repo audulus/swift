@@ -44,4 +44,4 @@ jobs:
       - name: Install ninja
         run: brew install ninja
       - name: Build toolchain
-        run: /usr/bin/python3 utils/build-toolchain com.audulus
+        run: ./utils/build-toolchain com.audulus

@@ -43,5 +43,7 @@ jobs:
           git checkout $GITHUB_REF
       - name: Install ninja
         run: brew install ninja
+      - name: Install six
+        run: pip install six
       - name: Build toolchain
         run: ./utils/build-toolchain com.audulus
